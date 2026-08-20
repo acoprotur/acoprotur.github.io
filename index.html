@@ -429,8 +429,38 @@
     background:var(--blanco);
     border:1px solid #eceaf6;
     border-radius:var(--radius);
-    padding:22px;
+    padding:0;
+    overflow:hidden;
+    display:flex;
+    flex-direction:column;
   }
+  .novedad-media{
+    position:relative;
+    width:100%;
+    aspect-ratio:16/9;
+    background:linear-gradient(135deg, var(--azul) 0%, var(--azul-dark) 100%);
+    overflow:hidden;
+    flex-shrink:0;
+  }
+  .novedad-media img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+  }
+  .novedad-media .media-fallback{
+    position:absolute;
+    inset:0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-family:var(--font-display);
+    font-size:1.5rem;
+    letter-spacing:0.14em;
+    color:rgba(255,255,255,0.34);
+    text-transform:uppercase;
+  }
+  .novedad-body{padding:22px;}
   .novedad-card .fecha{
     font-size:0.78rem;
     font-weight:700;
@@ -442,6 +472,22 @@
   }
   .novedad-card h3{font-size:1.05rem;color:var(--azul-dark);margin-bottom:8px;}
   .novedad-card p{font-size:0.92rem;color:#5a5f8a;}
+  .novedad-card .novedad-link{
+    display:inline-block;
+    margin-top:14px;
+    font-size:0.88rem;
+    font-weight:700;
+    color:var(--azul);
+    text-decoration:none;
+  }
+  .novedad-card .novedad-link:hover{text-decoration:underline;}
+  .novedades-estado{
+    grid-column:1/-1;
+    text-align:center;
+    padding:28px;
+    font-size:0.95rem;
+    color:#6a6f95;
+  }
 
   /* ---------- VALIDAR MATRICULA ---------- */
   .validar-box{
@@ -495,6 +541,57 @@
   }
   .monto-box .label{font-size:0.85rem;color:#6a6f95;text-transform:uppercase;letter-spacing:0.06em;}
   .monto-box p{margin-top:14px;font-size:0.92rem;color:#5a5f8a;}
+  .monto-box .monto-nota{
+    font-size:0.82rem;
+    color:#8388ad;
+    margin-top:-2px;
+    display:block;
+  }
+  .monto-sep{
+    border:0;
+    border-top:1px solid #eceaf6;
+    margin:20px 0 16px;
+  }
+  .monto-box .cuota-linea{
+    display:flex;
+    align-items:baseline;
+    justify-content:space-between;
+    gap:12px;
+  }
+  .monto-box .cuota-linea .cuota-label{
+    font-size:0.85rem;
+    color:#6a6f95;
+    text-transform:uppercase;
+    letter-spacing:0.06em;
+  }
+  .monto-box .cuota-linea .cuota-monto{
+    font-family:var(--font-display);
+    font-size:1.35rem;
+    color:var(--azul-dark);
+    white-space:nowrap;
+  }
+  .monto-box .incluye{
+    list-style:none;
+    margin:14px 0 0;
+    padding:0;
+  }
+  .monto-box .incluye li{
+    position:relative;
+    padding-left:20px;
+    font-size:0.88rem;
+    color:#5a5f8a;
+    margin-bottom:7px;
+    line-height:1.45;
+  }
+  .monto-box .incluye li::before{
+    content:"";
+    position:absolute;
+    left:0;
+    top:0.5em;
+    width:7px;height:7px;
+    border-radius:50%;
+    background:var(--dorado);
+  }
 
   /* ---------- AUTORIDADES ---------- */
   .autoridades-grid{
@@ -725,7 +822,7 @@
     </div>
     <div class="revista-frame-wrap">
       <div style="position:relative;padding-top:max(60%,324px);width:100%;height:0;">
-        <iframe style="position:absolute;border:none;width:100%;height:100%;left:0;top:0;" src="https://online.fliphtml5.com/ACoProTur_julio2026/nyqr/" title="Revista ACoProTur" seamless="seamless" scrolling="no" frameborder="0" allowtransparency="true" allowfullscreen="true"></iframe>
+        <iframe style="position:absolute;border:none;width:100%;height:100%;left:0;top:0;" src="https://online.fliphtml5.com/ACoProTur_julio2026/Beneficios-Profesioanles-Agosto26/" title="Revista ACoProTur — Beneficios Profesionales, agosto 2026" seamless="seamless" scrolling="no" frameborder="0" allowtransparency="true" allowfullscreen="true"></iframe>
       </div>
     </div>
   </div>
@@ -741,11 +838,11 @@
     </div>
 
     <div class="novedades-grid" id="novedadesGrid">
-      <div class="novedad-card">
-        <span class="fecha">Próximamente</span>
-        <h3>Esta sección se conecta a una planilla de novedades</h3>
-        <p>Cuando Majo cree la pestaña "Novedades" en el Google Sheet, este bloque se reemplaza por tarjetas cargadas automáticamente — sin tocar el código del sitio.</p>
-      </div>
+      <div class="novedades-estado">Cargando novedades…</div>
+    </div>
+
+    <div style="text-align:center;margin-top:34px;">
+      <a href="novedades.html" class="btn btn-outline">Ver todas las novedades</a>
     </div>
   </div>
 </section>
@@ -784,6 +881,22 @@
       <div class="monto-box">
         <span class="label">Valor de matrícula</span>
         <span class="monto">$15.000</span>
+        <span class="monto-nota">Pago único de inscripción</span>
+
+        <hr class="monto-sep">
+
+        <div class="cuota-linea">
+          <span class="cuota-label">Cuota mensual</span>
+          <span class="cuota-monto">$7.000</span>
+        </div>
+
+        <ul class="incluye">
+          <li>Matrícula profesional verificable públicamente por agencias, hoteles y turistas</li>
+          <li>Credencial digital y constancia de habilitación vigente</li>
+          <li>Capacitaciones y beneficios exclusivos para matriculados</li>
+          <li>Representación institucional del sector ante organismos públicos</li>
+        </ul>
+
         <p>El pago se realiza una vez evaluada la inscripción. Ante dudas, escribinos a <a href="mailto:secretaria@acoprotur.org" style="color:var(--azul);font-weight:700;">secretaria@acoprotur.org</a>.</p>
       </div>
 
@@ -930,12 +1043,6 @@
       Este código es esencial para mantener la integridad y la reputación del sector turístico, fomentando la responsabilidad y el compromiso ético entre los profesionales de ACoProTur. Su implementación y seguimiento son clave para construir una industria turística sostenible y respetuosa.
     </div>
 
-    <div class="cuota-box" style="margin-top:36px;">
-      <span class="badge">Próximamente</span>
-      <h3>Estatuto de ACoProTur</h3>
-      <p>Estamos actualizando el Estatuto de la asociación. En cuanto esté listo, vas a poder consultarlo acá como documento descargable.</p>
-      <a href="#" class="btn btn-outline" aria-disabled="true">Ver estatuto — disponible pronto</a>
-    </div>
   </div>
 </section>
 
@@ -1041,6 +1148,147 @@
       toggle.setAttribute('aria-expanded', 'false');
     });
   });
+
+  /* ---------- NOVEDADES desde Google Sheets ---------- */
+  /* Pegá acá la URL del CSV publicado de la pestaña "Novedades".
+     Archivo > Compartir > Publicar en la web > pestaña "Novedades" > CSV */
+  const NOVEDADES_CSV = 'PEGAR_URL_CSV_AQUI';
+  const NOVEDADES_MAX = 3;
+
+  function parseCSV(text){
+    const rows = []; let row = []; let field = ''; let q = false;
+    for (let i = 0; i < text.length; i++){
+      const c = text[i];
+      if (q){
+        if (c === '"'){
+          if (text[i+1] === '"'){ field += '"'; i++; }
+          else { q = false; }
+        } else { field += c; }
+      } else {
+        if (c === '"'){ q = true; }
+        else if (c === ','){ row.push(field); field = ''; }
+        else if (c === '\n'){ row.push(field); rows.push(row); row = []; field = ''; }
+        else if (c !== '\r'){ field += c; }
+      }
+    }
+    if (field.length || row.length){ row.push(field); rows.push(row); }
+    return rows.filter(r => r.some(v => v.trim() !== ''));
+  }
+
+  function esc(s){
+    return String(s).replace(/[&<>"']/g, m => ({
+      '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+    })[m]);
+  }
+
+  const MESES_ES = ['enero','febrero','marzo','abril','mayo','junio',
+                    'julio','agosto','septiembre','octubre','noviembre','diciembre'];
+
+  /* 2026-08-20 -> "20 de agosto de 2026". Si no matchea, devuelve el texto tal cual. */
+  function fechaLinda(f){
+    const v = String(f || '').trim();
+    const m = v.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+    if (!m) return v;
+    const mes = MESES_ES[parseInt(m[2], 10) - 1] || '';
+    return parseInt(m[3], 10) + ' de ' + mes + ' de ' + m[1];
+  }
+
+  function slugify(t){
+    return String(t || '')
+      .toLowerCase()
+      .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-+|-+$/g, '')
+      .slice(0, 60) || 'novedad';
+  }
+
+  function urlSegura(u){
+    const v = String(u || '').trim();
+    return /^https?:\/\//i.test(v) ? v : '';
+  }
+
+  /* Acepta URL completa, ruta relativa del repo (img/novedades/foto.jpg),
+     y normaliza links de Google Drive al formato que sí se muestra. */
+  function urlImagen(u){
+    let v = String(u || '').trim();
+    if (!v) return '';
+
+    const drive = v.match(/drive\.google\.com\/(?:file\/d\/|open\?id=|uc\?[^]*id=)([A-Za-z0-9_-]{20,})/);
+    if (drive) return 'https://lh3.googleusercontent.com/d/' + drive[1];
+
+    if (/^https?:\/\//i.test(v)) return v;
+    if (/^(img|imagenes|assets|novedades)\//i.test(v)) return v;
+    return '';
+  }
+
+  async function cargarNovedades(){
+    const grid = document.getElementById('novedadesGrid');
+    if (!grid) return;
+
+    if (!NOVEDADES_CSV || NOVEDADES_CSV === 'PEGAR_URL_CSV_AQUI'){
+      grid.innerHTML = '<div class="novedades-estado">Pronto vas a encontrar acá las novedades de la asociación.</div>';
+      return;
+    }
+
+    try {
+      const res = await fetch(NOVEDADES_CSV, { cache: 'no-store' });
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      const filas = parseCSV(await res.text());
+      if (filas.length < 2) throw new Error('sin datos');
+
+      const cab = filas[0].map(h => h.trim().toLowerCase());
+      const iFecha     = cab.indexOf('fecha');
+      const iTitulo    = cab.indexOf('titulo');
+      const iResumen   = cab.indexOf('resumen');
+      const iContenido = cab.indexOf('contenido');
+      const iImagen    = cab.indexOf('imagen');
+      const iEnlace    = cab.indexOf('enlace');
+      const iPub       = cab.indexOf('publicar');
+
+      if (iTitulo === -1) throw new Error('falta columna Titulo');
+
+      const items = filas.slice(1)
+        .filter(r => (r[iTitulo] || '').trim() !== '')
+        .filter(r => iPub === -1 || /^(si|sí|s|x|true|1)$/i.test((r[iPub] || '').trim()))
+        .sort((a, b) => {
+          const fa = iFecha > -1 ? (a[iFecha] || '').trim() : '';
+          const fb = iFecha > -1 ? (b[iFecha] || '').trim() : '';
+          return fb.localeCompare(fa);
+        })
+        .slice(0, NOVEDADES_MAX);
+
+      if (!items.length) throw new Error('sin publicadas');
+
+      grid.innerHTML = items.map(r => {
+        const fecha   = fechaLinda(iFecha > -1 ? r[iFecha] : '');
+        const titulo  = (r[iTitulo] || '').trim();
+        const resumen = iResumen > -1 ? (r[iResumen] || '').trim() : '';
+        const imagen  = iImagen  > -1 ? urlImagen(r[iImagen]) : '';
+        const enlace  = 'novedades.html#' + slugify(titulo);
+
+        const media = '<div class="novedad-media">'
+          + '<span class="media-fallback">ACoProTur</span>'
+          + (imagen
+              ? '<img src="' + esc(imagen) + '" alt="' + esc(titulo) + '" loading="lazy" onerror="this.remove();">'
+              : '')
+          + '</div>';
+
+        return '<article class="novedad-card">'
+          + media
+          + '<div class="novedad-body">'
+          + (fecha ? '<span class="fecha">' + esc(fecha) + '</span>' : '')
+          + '<h3>' + esc(titulo) + '</h3>'
+          + (resumen ? '<p>' + esc(resumen) + '</p>' : '')
+          + '<a class="novedad-link" href="' + esc(enlace) + '">Leer más →</a>'
+          + '</div>'
+          + '</article>';
+      }).join('');
+
+    } catch (err) {
+      grid.innerHTML = '<div class="novedades-estado">Pronto vas a encontrar acá las novedades de la asociación.</div>';
+    }
+  }
+  cargarNovedades();
 
   const contactoForm = document.getElementById('contactoForm');
   const contactoStatus = document.getElementById('contactoStatus');
