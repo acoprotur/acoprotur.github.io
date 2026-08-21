@@ -913,6 +913,15 @@
       .slice(0, 60) || 'novedad';
   }
 
+
+  /* Normaliza encabezados: minúsculas, sin tildes, sin espacios sobrantes.
+     Así "Título", "TITULO" y " titulo " son todos válidos. */
+  function normCab(h){
+    return String(h || '')
+      .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+      .trim().toLowerCase();
+  }
+
   function urlSegura(u){
     const v = String(u || '').trim();
     return /^https?:\/\//i.test(v) ? v : '';
@@ -953,7 +962,7 @@
       const filas = parseCSV(await res.text());
       if (filas.length < 2) throw new Error('sin datos');
 
-      const cab = filas[0].map(h => h.trim().toLowerCase());
+      const cab = filas[0].map(normCab);
       const iFecha     = cab.indexOf('fecha');
       const iTitulo    = cab.indexOf('titulo');
       const iResumen   = cab.indexOf('resumen');
@@ -962,7 +971,10 @@
       const iEnlace    = cab.indexOf('enlace');
       const iPub       = cab.indexOf('publicar');
 
-      if (iTitulo === -1) throw new Error('falta columna Titulo');
+      if (iTitulo === -1){
+        console.warn('[Novedades] No se encontró la columna "Titulo". Encabezados leídos:', cab);
+        throw new Error('falta columna Titulo');
+      }
 
       const items = filas.slice(1)
         .filter(r => (r[iTitulo] || '').trim() !== '')
@@ -973,7 +985,10 @@
           return fb.localeCompare(fa);
         });
 
-      if (!items.length) throw new Error('sin publicadas');
+      if (!items.length){
+        console.warn('[Novedades] Hay filas pero ninguna con Publicar = si. Filas leídas:', filas.length - 1);
+        throw new Error('sin publicadas');
+      }
 
       cont.innerHTML = items.map(r => {
         const titulo    = (r[iTitulo] || '').trim();
@@ -1007,6 +1022,7 @@
       }
 
     } catch (err) {
+      console.warn('[Novedades] No se pudieron cargar:', err.message);
       cont.innerHTML = '<div class="archivo-estado">Pronto vas a encontrar acá las novedades de la asociación.</div>';
     }
   }
