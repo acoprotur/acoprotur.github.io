@@ -447,6 +447,8 @@
     height:100%;
     object-fit:cover;
     display:block;
+    position:relative;
+    z-index:2;
   }
   .novedad-media .media-fallback{
     position:absolute;
@@ -1222,11 +1224,20 @@
     let v = String(u || '').trim();
     if (!v) return '';
 
+    /* Link copiado de la barra del navegador en GitHub:
+       github.com/usuario/repo/blob/main/img/novedades/foto.jpg
+       -> se convierte a la ruta relativa del sitio. */
+    const gh = v.match(/github\.com\/[^/]+\/[^/]+\/blob\/[^/]+\/(.+)$/i);
+    if (gh) return gh[1].split('?')[0];
+
+    /* raw.githubusercontent.com ya sirve la imagen directo. */
+    if (/^https?:\/\/raw\.githubusercontent\.com\//i.test(v)) return v;
+
     const drive = v.match(/drive\.google\.com\/(?:file\/d\/|open\?id=|uc\?[^]*id=)([A-Za-z0-9_-]{20,})/);
     if (drive) return 'https://lh3.googleusercontent.com/d/' + drive[1];
 
     if (/^https?:\/\//i.test(v)) return v;
-    if (/^(img|imagenes|assets|novedades)\//i.test(v)) return v;
+    if (/^\/?(img|imagenes|assets|novedades)\//i.test(v)) return v.replace(/^\//, '');
     return '';
   }
 
